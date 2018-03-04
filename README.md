@@ -14,9 +14,13 @@ make
 lista 2
 
 może byc ten sam problem z cmake
+
 trzeba boosta zainstalować
 
 https://stackoverflow.com/questions/12578499/how-to-install-boost-on-ubuntu
+
+and
+
 http://www.boost.org
 
 cd Lista2 
