@@ -9,13 +9,13 @@ std::mt19937_64 rng;
 auto zad1(int N = 100, int NN = 10000) {
 
     Gnuplot gp;
-    std::vector<std::vector<boost::tuple<int, int, int, int> > > pts(NN,
-                                                                     std::vector<boost::tuple<int, int, int, int>>(N));
+    std::vector<std::vector<std::tuple<int, int, int, int> > > pts(NN,
+                                                                     std::vector<std::tuple<int, int, int, int>>(N));
     int polozenie{0};
     std::uniform_int_distribution<int> zero_one(-1, 0);
     for (auto i{0}; i < pts.size(); i++) {
         for (auto j{0}; j < pts.at(i).size(); j++) {
-            pts.at(i).at(j) = boost::make_tuple(j, polozenie, 1, 1);
+            pts.at(i).at(j) = std::make_tuple(j, polozenie, 1, 1);
             polozenie += zero_one(rng) * 2 + 1;
         }
         polozenie = 0;
@@ -34,8 +34,8 @@ auto zad1(int N = 100, int NN = 10000) {
 auto zad2(double p = 1.3, int N = 100, int NN = 100) {
 
     Gnuplot gp;
-    std::vector<std::vector<boost::tuple<double, double, double, double> > > pts(NN,
-                                                                                 std::vector<boost::tuple<double, double, double, double>>(
+    std::vector<std::vector<std::tuple<double, double, double, double> > > pts(NN,
+                                                                                 std::vector<std::tuple<double, double, double, double>>(
             N));
     double polozenie{0.00};
     double suma{0.00};
@@ -44,7 +44,7 @@ auto zad2(double p = 1.3, int N = 100, int NN = 100) {
     std::uniform_int_distribution<int> zero_one(-1, 0);
     for (auto i{0}; i < pts.size(); i++) {
         for (auto j{0}; j < pts.at(i).size(); j++) {
-            pts.at(i).at(j) = boost::make_tuple(j, polozenie, 1, 1);
+            pts.at(i).at(j) = std::make_tuple(j, polozenie, 1, 1);
             polozenie += (zero_one(rng) * 2 + 1) * p;
         }
         suma += polozenie;
@@ -56,7 +56,7 @@ auto zad2(double p = 1.3, int N = 100, int NN = 100) {
 
     for (auto i{0}; i < pts.size(); i++) {
         for (auto j{0}; j < pts.at(i).size(); j++) {
-            suma = suma + pow((pts.at(i).at(j).get<1>() - srednia), 2);
+            suma = suma + pow((std::get<1>(pts.at(i).at(j)) - srednia), 2);
         }
     }
     odchylenie = sqrt(suma / NN);
@@ -73,39 +73,51 @@ auto zad2(double p = 1.3, int N = 100, int NN = 100) {
 }
 
 //zad3
-auto zad3Obliczenia(int poczatkowePolozenie = 0, int a = 5, int N = 10000, int NN = 100){
-    std::vector<unsigned int> t(N);
+auto zad3Obliczenia(int poczatkowePolozenie = 0, int a = 5, int N = 100, int NN = 100){
+    Gnuplot gp;
+    double suma {0.00};
     std::vector<std::vector<std::tuple<int, int, int, int> > > pts(N,
                                                                      std::vector<std::tuple<int, int, int, int>>(NN));
     int polozenie{poczatkowePolozenie};
+    int polozeniej{0};
     std::uniform_int_distribution<int> zero_one(-1, 0);
     for (auto i{0}; i < pts.size(); i++) {
         for (auto j{0}; j < pts.at(i).size(); j++) {
-            if(polozenie <= 0 || polozenie >= 2*a)
-                pts.at(i).at(j) = std::make_tuple(j, 0, 1, 1);
+            if(polozenie <= 0)
+                pts.at(i).at(j) = std::make_tuple(polozeniej, polozenie+1, 1, 1);
+            else if(polozenie >= 2*a)
+                pts.at(i).at(j) = std::make_tuple(polozeniej, polozenie-1, 1, 1);
             else
             {
-                t.at(i)++;
+                suma++;
                 pts.at(i).at(j) = std::make_tuple(j, polozenie, 1, 1);
                 polozenie += zero_one(rng) * 2 + 1;
+                polozeniej = j;
             }
         }
         polozenie = poczatkowePolozenie;
     }
-    double suma {0.00};
-    for(const auto& i : t)
-    {
-        suma += i;
-    }
     std::cout << "poczatkowe polozenie : " << poczatkowePolozenie << " srednie suma/N : " << suma/N << std::endl;
-    return suma;
+    std::string plot{"plot "};
+    for (auto i{0}; i < N; i++)
+        plot += " '-' with lines title '', ";
+    plot += "\n";
+    gp << "set xrange [-1:101]\nset yrange [-1:11]\n";
+    gp << plot;
+    for (const auto &i : pts)
+        gp.send1d(i);
+    return suma/N;
 }
 
 auto zad3()
 {
-    std::vector<double> sumy;
+    Gnuplot gp;
+    std::vector<std::tuple<int, int, int, int> >  pts;
     for( auto i {1}; i < 2*5; i++)
-        sumy.push_back(zad3Obliczenia(i));
+        pts.push_back(std::make_tuple(i, zad3Obliczenia(i), 1, 1));
+    gp << "set xrange [0:11]\nset yrange [0:30]\n";
+    gp << "plot '-' with lines title ''\n";
+    gp.send1d(pts);
 }
 
 int main() {
@@ -113,7 +125,7 @@ int main() {
     //zad1();
     //zad2();
     //zad2(0.7);
-    zad3();
+    //zad3();
 
     return 0;
 }
