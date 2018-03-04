@@ -1,6 +1,6 @@
 # modelowanie
 
-zad 2
+lista 2
 
 sudo apt-get install libboost-all-dev
 chyba powinno wystarczyć
