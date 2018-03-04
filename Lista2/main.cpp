@@ -1,7 +1,7 @@
 #include <iostream>
 #include <random>
 #include <ctime>
-#include "gnuplot-iostream/gnuplot-iostream.h"
+#include "../gnuplot-iostream/gnuplot-iostream.h"
 
 std::mt19937_64 rng;
 
