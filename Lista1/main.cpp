@@ -26,9 +26,13 @@ auto makePoint(double range1 = -1.00, double range2 = 1.00) {
 
 double symulaion(int N, double P, int &S) {
     for (auto i{0}; i < N; i++)
+    {
         if (distance(makePoint()) <= 1)
+        {
             S++;
-    return (static_cast<double>(S) / static_cast<double>(N)) * pow(P, 3);
+        }
+    }
+    return (S / static_cast<double>(N)) * pow(P, 3);
 }
 
 auto resultZad1() {
@@ -36,19 +40,22 @@ auto resultZad1() {
     constexpr auto N_1{100};
     constexpr auto N_2{10000};
     constexpr auto N_3{1000000};
-    auto S1{0};
-    auto S2{0};
-    auto S3{0};
+    int S1 = 0;
+    int S2 = 0;
+    int S3 = 0;
 
     constexpr auto rightVolumeofBall{(4.00 / 3.00) * M_PI * pow((bok / 2.00), 3)};
 
     std::cout << " Right Volume of Ball : " << rightVolumeofBall
               << std::endl << " Calculated Volume of Ball : " << symulaion(N_1, bok, S1)
-              << std::endl << "number of throws : " << N_1 << " number of hits : " << S1 << std::endl
-              << std::endl << " Calculated Volume of Ball : " << symulaion(N_2, bok, S2)
-              << std::endl << "number of throws : " << N_2 << " number of hits : " << S2 << std::endl
-              << std::endl << " Calculated Volume of Ball : " << symulaion(N_3, bok, S3)
-              << std::endl << "number of throws : " << N_3 << " number of hits : " << S3 << std::endl;
+              << std::endl << "number of throws : " << N_1;
+    std::cout << " number of hits : " << S1 << std::endl;
+    std::cout << std::endl << " Calculated Volume of Ball : " << symulaion(N_2, bok, S2)
+              << std::endl << "number of throws : " << N_2;
+    std::cout << " number of hits : " << S2 << std::endl;
+    std::cout << std::endl << " Calculated Volume of Ball : " << symulaion(N_3, bok, S3)
+              << std::endl << "number of throws : " << N_3 ;
+    std::cout << " number of hits : " << S3 << std::endl;
 }
 
 //zad2
@@ -79,23 +86,22 @@ auto resultZad2() {
     constexpr auto N_1{100};
     constexpr auto N_2{10000};
     constexpr auto N_3{1000000};
-    constexpr auto N_4{100000000};
     auto S1{0};
     auto S2{0};
     auto S3{0};
-    auto S4{0};
 
     constexpr auto rightVolumeofFigure{ (pow( M_PI, (15.00 / 2.00)) / tgamma((15.00 / 2.00) + 1.00)) * pow((bok / 2.00), 15.00) };
 
     std::cout << " Right Volume of Figure : " << rightVolumeofFigure
-              << std::endl << " Calculated Volume of Figure : " << symulaionZad2(N_1, bok, S1)
-              << std::endl << "number of throws : " << N_1 << " number of hits : " << S1 << std::endl
-              << std::endl << " Calculated Volume of Figure : " << symulaionZad2(N_2, bok, S2)
-              << std::endl << "number of throws : " << N_2 << " number of hits : " << S2 << std::endl
-              << std::endl << " Calculated Volume of Figure : " << symulaionZad2(N_3, bok, S3)
-              << std::endl << "number of throws : " << N_3 << " number of hits : " << S3 << std::endl
-              << std::endl << " Calculated Volume of Figure : " << symulaionZad2(N_4, bok, S4)
-              << std::endl << "number of throws : " << N_2 << " number of hits : " << S4 << std::endl;
+              << std::endl << " Calculated Volume of Figure : " << symulaion(N_1, bok, S1)
+              << std::endl << "number of throws : " << N_1;
+    std::cout << " number of hits : " << S1 << std::endl;
+    std::cout << std::endl << " Calculated Volume of Figure : " << symulaion(N_2, bok, S2)
+              << std::endl << "number of throws : " << N_2;
+    std::cout << " number of hits : " << S2 << std::endl;
+    std::cout << std::endl << " Calculated Volume of Figure : " << symulaion(N_3, bok, S3)
+              << std::endl << "number of throws : " << N_3 ;
+    std::cout << " number of hits : " << S3 << std::endl;
 }
 
 //zad3
@@ -106,19 +112,18 @@ auto resultZad3()
     constexpr auto N {100000};
     auto result {0.00};
 
-    std::uniform_real_distribution<double> zero_one(xmax, xmin);
+    std::uniform_real_distribution<double> zero_one(xmin, xmax);
     for(auto i {0}; i < N; i++) {
-        double point {exp(zero_one(rng))};
-        result += exp((-point*point)/2);
+        double point {zero_one(rng)};
+        result += 1 / sqrt(2 * M_PI) * exp((-point*point)/2);
     }
-    std::cout << 1.00 / sqrt(2.00 * M_PI) * result / N * (xmax - xmin) << std::endl;
+    std::cout << result / N * 4 << std::endl;
 }
 
 //zad4
-
 auto symulation(auto N)
 {
-    auto success {0};
+    double success {0.00};
     std::vector<int> cards(N);
 
     for(auto i {0}; i < cards.size(); i++)
@@ -134,9 +139,21 @@ auto symulation(auto N)
 
 auto resultZad4()
 {
-    std::cout << "success when N = 100 : " << symulation(100) << std::endl;
-    std::cout << "success when N = 10000 : " << symulation(10000) << std::endl;
-    std::cout << "success when N = 1000000 : " << symulation(1000000) << std::endl;
+    double n100 {0};
+    double n10000 {0};
+    double n1000000 {0};
+    for(auto i {0}; i < 100; i++)
+        n100 += symulation(100);
+
+    for(auto i {0}; i < 10000; i++)
+        n10000 += symulation(100);
+
+    for(auto i {0}; i < 1000000; i++)
+        n1000000 += symulation(100);
+
+    std::cout << "success when N = 100 : " << n100/100.00 << std::endl;
+    std::cout << "success when N = 10000 : " << n10000/10000.00 << std::endl;
+    std::cout << "success when N = 1000000 : " << n1000000/1000000.00 << std::endl;
 }
 
 int main() {

@@ -7,9 +7,8 @@
 std::mt19937_64 rng;
 
 //zad1
-
 struct Point{
-    Point(int x = 0, int y = 0): x(x), y(y)
+    constexpr explicit Point(int x = 0, int y = 0): x(x), y(y)
     {}
     int x;
     int y;
@@ -65,7 +64,7 @@ auto zad2(){
 
 int main() {
     rng.seed(static_cast<unsigned long>(time(nullptr)));
-    //zad1();
+    zad1();
 
     return 0;
 }

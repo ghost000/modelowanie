@@ -73,7 +73,7 @@ auto zad2(double p = 1.3, int N = 100, int NN = 100) {
 }
 
 //zad3
-auto zad3Obliczenia(int poczatkowePolozenie = 0, int a = 5, int N = 100, int NN = 100){
+auto zad3Obliczenia(int poczatkowePolozenie = 0, int a = 5, int N = 100, int NN = 10000){
     Gnuplot gp;
     double suma {0.00};
     std::vector<std::vector<std::tuple<int, int, int, int> > > pts(N,
@@ -123,7 +123,7 @@ auto zad3()
 int main() {
     rng.seed(static_cast<unsigned long>(time(nullptr)));
     //zad1();
-    //zad2();
+    zad2();
     //zad2(0.7);
     //zad3();
 
