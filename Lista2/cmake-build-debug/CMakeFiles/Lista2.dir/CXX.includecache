@@ -1,0 +1,16 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/neo/Documents/Sezon_5/Modelowanie/modelowanie/Lista2/main.cpp
+iostream
+-
+random
+-
+fstream
+-
+
